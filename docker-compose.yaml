@@ -1,0 +1,25 @@
+#最好使用vpn下载安装依赖，否则有很多依赖会安装不成功
+#授权挂载目录  chown -R 1000 jenkins
+version: '3.4'
+services:
+    jenkins:
+        image: jenkins/jenkins:2.156-alpine
+        container_name : jenkins
+        ports:
+            - 888:8080/tcp
+        networks:
+            lnmpr:
+                aliases:
+                    - jenkins
+        volumes:
+            - ./jenkins:/var/jenkins_home:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+        restart: always
+networks:
+    lnmpr:
+        external: true
