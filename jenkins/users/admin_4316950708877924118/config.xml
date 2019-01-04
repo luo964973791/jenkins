@@ -36,7 +36,7 @@
       <insensitiveSearch>true</insensitiveSearch>
     </hudson.search.UserSearchProperty>
     <hudson.security.HudsonPrivateSecurityRealm_-Details>
-      <passwordHash>#jbcrypt:$2a$10$viZagSnpGaVsJdJMMVOWMuwtJLOrhkqeAdElFQ0kGsH.2ADZ4nnxK</passwordHash>
+      <passwordHash>#jbcrypt:$2a$10$v1U2KK2wV365qtCeGVKjauDk/lUTdWfbnBJLkr625likVTvnNoZty</passwordHash>
     </hudson.security.HudsonPrivateSecurityRealm_-Details>
     <hudson.tasks.Mailer_-UserProperty plugin="mailer@1.22">
       <emailAddress>964973791@qq.com</emailAddress>
