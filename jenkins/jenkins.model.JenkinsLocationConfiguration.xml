@@ -1,5 +1,0 @@
-<?xml version='1.1' encoding='UTF-8'?>
-<jenkins.model.JenkinsLocationConfiguration>
-  <adminAddress>没有配置邮箱地址 &lt;nobody@nowhere&gt;</adminAddress>
-  <jenkinsUrl>http://172.27.0.6:8080/</jenkinsUrl>
-</jenkins.model.JenkinsLocationConfiguration>
