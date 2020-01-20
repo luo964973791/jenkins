@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: rmg
+Build-Jdk: 1.8.0_40
+Extension-Name: mktmpio
+Specification-Title: Create a disposable database server for the durat
+ ion of a build.
+Specification-Vendor: mktmpio team, Datajin Technologies, Inc.
+Implementation-Vendor: mktmpio team, Datajin Technologies, Inc.
+Implementation-Title: mktmpio
+Implementation-Version: 0.3.2
+Group-Id: org.jenkins-ci.plugins
+Short-Name: mktmpio
+Long-Name: Jenkins mktmpio Plugin
+Url: https://wiki.jenkins-ci.org/display/JENKINS/mktmpio+Plugin
+Plugin-Version: 0.3.2
+Hudson-Version: 1.609.1
+Jenkins-Version: 1.609.1
+Plugin-Developers: Ryan Graham:rmgraham:r.m.graham@gmail.com
+

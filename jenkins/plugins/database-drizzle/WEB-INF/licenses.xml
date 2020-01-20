@@ -1,0 +1,9 @@
+<l:dependencies xmlns:l='licenses' groupId='org.jenkins-ci.plugins' artifactId='database-drizzle' version='1.0'>
+  <l:dependency name='database-drizzle' groupId='org.jenkins-ci.plugins' artifactId='database-drizzle' version='1.0' url='https://wiki.jenkins-ci.org/display/JENKINS/Drizzle+Database+Plugin'>
+    <l:description />
+  </l:dependency>
+  <l:dependency name='Drizzle-JDBC' groupId='org.drizzle.jdbc' artifactId='drizzle-jdbc' version='1.2' url='https://github.com/krummas/DrizzleJDBC'>
+    <l:description>BSD Licensed JDBC driver for Drizzle and MySQL</l:description>
+    <l:license name='Simplified BSD' url='http://www.opensource.org/licenses/bsd-license.php' />
+  </l:dependency>
+</l:dependencies>

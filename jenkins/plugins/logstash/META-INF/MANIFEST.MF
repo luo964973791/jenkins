@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: bochja
+Build-Jdk: 1.8.0_201
+Extension-Name: logstash
+Specification-Title: A Logstash agent to send Jenkins logs to a Logsta
+ sh indexer.
+Implementation-Title: logstash
+Implementation-Version: 2.3.1
+Plugin-Class: jenkins.plugins.logstash.PluginImpl
+Group-Id: org.jenkins-ci.plugins
+Short-Name: logstash
+Long-Name: Logstash
+Url: https://wiki.jenkins.io/display/JENKINS/Logstash+Plugin
+Compatible-Since-Version: 2.0
+Plugin-Version: 2.3.1
+Hudson-Version: 2.60.3
+Jenkins-Version: 2.60.3
+Plugin-Dependencies: workflow-step-api:2.15;resolution:=optional,crede
+ ntials:2.1.11,junit:1.10,structs:1.14
+Plugin-Developers: K Jonathan Harker:jesusaurus:jesusaurus@inbox.com,R
+ usty Gerard:rgerard:rusty.gerard@gmail.com,Jakub Bocheński:jbochensk
+ i:kuba.bochenski+logstash-plugin@gmail.com
+

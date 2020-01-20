@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: Joseph Petersen
+Build-Jdk: 1.8.0_232
+Extension-Name: gitlab-branch-source
+Specification-Title: GitLab Provides branch source and folder organisa
+ tion functionality for GitLab
+     Repositories in Jenkins Source Plugin
+Implementation-Title: gitlab-branch-source
+Implementation-Version: 1.4.3
+Group-Id: io.jenkins.plugins
+Short-Name: gitlab-branch-source
+Long-Name: GitLab Branch Source Plugin
+Url: https://github.com/jenkinsci/gitlab-branch-source-plugin
+Minimum-Java-Version: 1.8
+Plugin-Version: 1.4.3
+Hudson-Version: 2.176.2
+Jenkins-Version: 2.176.2
+Plugin-Dependencies: gitlab-api:1.0.5,branch-api:2.5.4,credentials:2.2
+ .0,git:3.10.0,plain-credentials:1.3,scm-api:2.5.1
+Plugin-Developers: Parichay Barpanda:baymac:parichay.barpanda@gmail.co
+ m,Marky Jackson:markyjackson-taulia:marky.r.jackson@gmail.com,Justin 
+ Harringa:justinharringa:justin@harringa.com,Joseph Peterson:casz:jose
+ php90@gmail.com
+Plugin-License-Name: MIT License
+Plugin-License-Url: https://opensource.org/licenses/MIT
+Plugin-ScmUrl: https://github.com/jenkinsci/gitlab-branch-source-plugin
+

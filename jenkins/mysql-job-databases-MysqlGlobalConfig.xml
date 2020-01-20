@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.model.Descriptor plugin="mysql-job-databases">
+  <jenkins_mysql_user></jenkins_mysql_user>
+  <jenkins_mysql_password></jenkins_mysql_password>
+  <jenkins_mysql_server_host></jenkins_mysql_server_host>
+  <jenkins_mysql_server_port></jenkins_mysql_server_port>
+</hudson.model.Descriptor>

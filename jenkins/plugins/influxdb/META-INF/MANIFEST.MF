@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: aleksisimell
+Build-Jdk: 1.8.0_192
+Extension-Name: influxdb
+Specification-Title: Plugin for pushing time series data to InfluxDB, 
+ inspired by https://github.com/jrajala-eficode/jenkins-ci.influxdb-pl
+ ugin and http://christoph-burmeister.eu/?p=2906
+Implementation-Title: influxdb
+Implementation-Version: 2.0.4
+Group-Id: org.jenkins-ci.plugins
+Short-Name: influxdb
+Long-Name: InfluxDB Plugin
+Url: https://github.com/jenkinsci/influxdb-plugin
+Compatible-Since-Version: 2.0
+Minimum-Java-Version: 1.8
+Plugin-Version: 2.0.4
+Hudson-Version: 2.60.3
+Jenkins-Version: 2.60.3
+Plugin-Dependencies: workflow-step-api:2.12,cobertura:1.12.1;resolutio
+ n:=optional,jacoco:1.0.12;resolution:=optional,junit:1.2,metrics:3.1.
+ 2.9;resolution:=optional,performance:3.0;resolution:=optional,perfpub
+ lisher:8.05;resolution:=optional,robot:1.6.0;resolution:=optional
+Plugin-Developers: Aleksi Simell:aleksisimell:aleksi.simell@eficode.com
+Plugin-License-Name: MIT license
+Plugin-License-Url: https://opensource.org/licenses/MIT
+Plugin-ScmUrl: https://github.com/jenkinsci/influxdb-plugin
+
