@@ -1,0 +1,9 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<org.jenkinsci.plugins.elasticsearchquery.ElasticsearchQueryBuilder_-DescriptorImpl plugin="elasticsearch-query@1.2">
+  <host></host>
+  <indexes></indexes>
+  <user></user>
+  <password></password>
+  <useSSL>false</useSSL>
+  <queryRequestTimeout>120000</queryRequestTimeout>
+</org.jenkinsci.plugins.elasticsearchquery.ElasticsearchQueryBuilder_-DescriptorImpl>
