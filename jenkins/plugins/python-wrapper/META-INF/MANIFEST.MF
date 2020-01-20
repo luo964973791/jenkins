@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: Tomas
+Build-Jdk: 1.7.0_17
+Extension-Name: python-wrapper
+Specification-Title: Provides the runtime library for plugins written 
+ in Python.
+Implementation-Title: python-wrapper
+Implementation-Version: 1.0.3
+Group-Id: org.jenkins-ci.plugins
+Short-Name: python-wrapper
+Long-Name: Python Wrapper Plugin
+Url: http://wiki.jenkins-ci.org/display/JENKINS/Python+Wrapper+Plugin
+Plugin-Version: 1.0.3
+Hudson-Version: 1.509.4
+Jenkins-Version: 1.509.4
+Mask-Classes: com.kenai.jffi.
+Plugin-Developers: Tomas Bambas:bambas:
+Support-Dynamic-Loading: true
+
