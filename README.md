@@ -18,3 +18,16 @@ docker run --restart=always -p 8080:8080 -p 50000:50000 -d  -v /data/jenkins:/va
 ![3](./image/3.png)
 
 ![4](./image/4.png)
+
+
+```javascript
+#!/bin/sh
+image_version=`date +%Y%m%d%H%M`
+cd /data/jenkins/workspace/newjob
+docker build -t nginx:$image_version .
+old=`kubectl get deploy/nginx -o yaml | grep -P '\- image'| awk '{print $3}'`
+kubectl set image deployment/nginx nginx=nginx:$image_version
+sleep 10
+docker rmi $old
+docker images
+```
