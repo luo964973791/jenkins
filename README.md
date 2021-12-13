@@ -9,7 +9,7 @@ docker run --restart=always -p 8080:8080 -p 50000:50000 -d  -v /data/jenkins:/va
 
 ### 二、配置项目
 
-![](C:\Users\Administrator\Desktop\jenkins\image\0.png)
+![](./image/0.png)
 
 ![1](C:\Users\Administrator\Desktop\jenkins\image\1.png)
 
