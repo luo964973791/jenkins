@@ -21,7 +21,7 @@ docker run --restart=always -p 8080:8080 -p 50000:50000 -d  -v /data/jenkins:/va
 
 
 ```javascript
-#!/bin/sh
+#!/bin/bash
 image_version=`date +%Y%m%d%H%M`
 cd /data/jenkins/workspace/newjob
 docker build -t nginx:$image_version .
