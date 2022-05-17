@@ -31,3 +31,19 @@ sleep 10
 docker rmi $old
 docker images
 ```
+
+### 三、helm安装jenkins
+
+```javascript
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm fetch bitnami/jenkins
+cd jenkins
+vi values.yaml
+storageClass: "csi-rbd-sc"
+type: NodePort
+
+kubectl create ns jenkins
+helm install -f values.yaml jenkins bitnami/jenkins -n jenkins
+```
+
