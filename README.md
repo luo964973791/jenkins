@@ -5,6 +5,10 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 mkdir /data/jenkins -p && chown -R 1000:1000 /data/jenkins
 #启动
 docker run --restart=always -p 8080:8080 -p 50000:50000 -d  -v /data/jenkins:/var/jenkins_home -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai --name jenkins jenkins/jenkins:lts
+
+
+#jenkins slave部署,token为master部署好以后生成
+docker run -itd --restart=always --name slave-1 jenkinsci/jnlp-slave -url http://172.27.0.3:38080 fce9ca7c44b6ff141adc6828606f2fd6ad6bfb527df855f369a431b931ab2aed slave-1
 ```
 
 ### 二、配置项目
