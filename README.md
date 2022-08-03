@@ -12,6 +12,8 @@ mkdir /data/jenkins -p && chown -R 1000:1000 /data/jenkins
 docker run -itd --restart=always --name slave-1 --init -v /data/jenkins:/home/jenkins/agent jenkins/inbound-agent:jdk8 -url http://172.27.0.3:38080 -workDir=/home/jenkins/agent fce9ca7c44b6ff141adc6828606f2fd6ad6bfb527df855f369a431b931ab2aed slave-1
 ```
 
+![](./image/6.png)
+
 ### 二、配置项目
 
 ![](./image/0.png)
