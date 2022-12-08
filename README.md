@@ -24,6 +24,8 @@ helm install jenkins \
   --set controller.serviceType=LoadBalancer \
   --set persistence.storageClass=local-path \
   --set persistence.size=6Gi \
+  --set controller.nodeSelector."kubernetes\.io/hostname"=node3 \
+  --set controller.javaOpts="-Duser.timezone=Asia/Shanghai" \
   jenkins/jenkins
 ```
 
