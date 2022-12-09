@@ -17,6 +17,10 @@ docker run -itd --restart=always --name slave-1 --init -v /data/jenkins:/home/je
 #helm部署jenkins
 helm repo add jenkins https://charts.jenkins.io
 helm repo update
+#打标签，slave只允许调度到这两个节点.
+kubectl label node node2 cicd=jenkins
+kubectl label node node3 cicd=jenkins
+
 helm install jenkins \
   --namespace jenkins --create-namespace \
   --set controller.adminUser=admin \
@@ -25,7 +29,7 @@ helm install jenkins \
   --set persistence.storageClass=local-path \
   --set persistence.size=6Gi \
   --set agent.podName=slave \
-  --set agent.nodeSelector."kubernetes\.io/hostname"=node3 \
+  --set agent.nodeSelector."cicd"=jenkins \
   --set controller.javaOpts="-Duser.timezone=Asia/Shanghai" \
   jenkins/jenkins
 ```
