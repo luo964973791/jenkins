@@ -3,11 +3,32 @@
 ```javascript
 echo 1 > /proc/sys/net/ipv4/ip_forward
 #启动
-docker run -itd -u root -p 8080:8080 -p 50000:50000 -v /data/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker -v /usr/libexec/docker/:/usr/libexec/docker/ -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai --name jenkins jenkins/jenkins:lts
+docker run -itd \
+  -u root \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -v /data/jenkins:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $(which docker):/usr/bin/docker \
+  -v /usr/libexec/docker/:/usr/libexec/docker/ \
+  -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai \
+  --name jenkins \
+  --restart=always \
+  jenkins/jenkins:lts
+
 
 #jenkins slave部署,token为master部署好以后生成
-mkdir /data/jenkins -p && chown -R 1000:1000 /data/jenkins
-docker run -itd --restart=always --name slave-1 --init -v /data/jenkins:/home/jenkins/agent jenkins/inbound-agent:jdk8 -url http://172.27.0.3:38080 -workDir=/home/jenkins/agent fce9ca7c44b6ff141adc6828606f2fd6ad6bfb527df855f369a431b931ab2aed slave-1
+docker run -itd \
+  -u root \
+  --restart=always \
+  --name slave-1 \
+  --init \
+  -v /data/jenkins:/home/jenkins/agent \
+  jenkins/inbound-agent:jdk8 \
+  -url http://172.27.0.3:38080 \
+  -workDir=/home/jenkins/agent \
+  fce9ca7c44b6ff141adc6828606f2fd6ad6bfb527df855f369a431b931ab2aed \
+  slave-1
 
 
 
