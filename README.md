@@ -2,9 +2,8 @@
 
 ```javascript
 echo 1 > /proc/sys/net/ipv4/ip_forward
-mkdir /data/jenkins -p && chown -R 1000:1000 /data/jenkins
 #启动
-docker run -itd -u root -p 8080:8080 -p 50000:50000 -v /data/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai --name jenkins jenkins/jenkins:lts
+docker run -itd -u root -p 8080:8080 -p 50000:50000 -v /data/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker -v /usr/libexec/docker/:/usr/libexec/docker/ -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai --name jenkins jenkins/jenkins:lts
 
 #jenkins slave部署,token为master部署好以后生成
 mkdir /data/jenkins -p && chown -R 1000:1000 /data/jenkins
