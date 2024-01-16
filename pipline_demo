@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = '172.27.0.8:5000'
+        GITLAB_URL = 'http://172.27.0.8:32080/root/demo.git'
+        DOCKER_CREDENTIALS_ID = '7bb9b473-44c9-4db0-8ddf-e9d0e26a20fc'
+        GITLAB_CREDENTIALS_ID = '5b158f51-7fed-481c-93a4-d6e7fb55b09d'
+    }
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                script {
+                    // Clone the GitLab repository using credentials
+                    SCM = checkout([$class: 'GitSCM', branches: [[name: '*/main']],
+                                doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
+                                userRemoteConfigs: [[credentialsId: "${GITLAB_CREDENTIALS_ID}", url: "${GITLAB_URL}"]]])
+                }
+            }
+        }
+
+        stage('Build and Push Docker Image') {
+            steps {
+                script {
+                    // Build Docker image with timestamp tag
+                    def timestamp = new Date().format("yyyyMMdd-HHmmss")
+                    def dockerImageTag = "nginx:${timestamp}"
+                    
+                    // Build and tag the Docker image
+                    sh "docker build -t ${dockerImageTag} ."
+                    
+                    // Login to Docker registry using credentials
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY}"
+                    }
+                    
+                    // Push the Docker image to the registry
+                    sh "docker tag ${dockerImageTag} ${DOCKER_REGISTRY}/${dockerImageTag} && docker push ${DOCKER_REGISTRY}/${dockerImageTag}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up: Logout from Docker registry
+            script {
+                sh "docker logout ${DOCKER_REGISTRY}"
+            }
+        }
+    }
+}
