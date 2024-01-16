@@ -12,7 +12,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 script {
-                    // Clone the GitLab repository using credentials
+                    // 使用凭据克隆 GitLab 存储库
                     SCM = checkout([$class: 'GitSCM', branches: [[name: '*/main']],
                                 doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
                                 userRemoteConfigs: [[credentialsId: "${GITLAB_CREDENTIALS_ID}", url: "${GITLAB_URL}"]]])
@@ -23,20 +23,33 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Build Docker image with timestamp tag
+                    // 使用时间戳标记构建 Docker 镜像
                     def timestamp = new Date().format("yyyyMMdd-HHmmss")
-                    def dockerImageTag = "nginx:${timestamp}"
+                    env.dockerImageTag = "nginx:${timestamp}"  // 在更广泛的作用域中定义它（使用'env'使其成为环境变量）
+
+                    // 构建并标记 Docker 镜像
+                    sh "docker build -t ${env.dockerImageTag} ."
                     
-                    // Build and tag the Docker image
-                    sh "docker build -t ${dockerImageTag} ."
-                    
-                    // Login to Docker registry using credentials
+                    // 使用凭据登录到 Docker 注册表
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
                         sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY}"
                     }
                     
-                    // Push the Docker image to the registry
-                    sh "docker tag ${dockerImageTag} ${DOCKER_REGISTRY}/${dockerImageTag} && docker push ${DOCKER_REGISTRY}/${dockerImageTag}"
+                    // 推送 Docker 镜像到注册表
+                    sh "docker tag ${env.dockerImageTag} ${DOCKER_REGISTRY}/${env.dockerImageTag} && docker push ${DOCKER_REGISTRY}/${env.dockerImageTag}"
+                    
+                    echo "Docker 镜像已成功推送到注册表"
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // 在随机端口上运行 Docker 容器
+                    def allocatedPort = sh(script: "docker run -d -P ${DOCKER_REGISTRY}/${env.dockerImageTag} | xargs docker port | cut -d'-' -f2", returnStdout: true).trim()
+
+                    echo "Docker 容器正在随机端口上运行"
                 }
             }
         }
@@ -44,7 +57,7 @@ pipeline {
 
     post {
         always {
-            // Clean up: Logout from Docker registry
+            // 清理: 从 Docker 注册表注销
             script {
                 sh "docker logout ${DOCKER_REGISTRY}"
             }
