@@ -9,47 +9,55 @@ pipeline {
     }
 
     stages {
-        stage('Git Checkout') {
+        stage('Git 检出') {
             steps {
                 script {
-                    // 使用凭据克隆 GitLab 存储库
-                    SCM = checkout([$class: 'GitSCM', branches: [[name: '*/main']],
+                    ansiColor('xterm') {
+                        echo '\u001B[32m中文输出：Git 检出\u001B[0m'
+                        // 使用凭据克隆 GitLab 存储库
+                        checkout([$class: 'GitSCM', branches: [[name: '*/main']],
                                 doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
                                 userRemoteConfigs: [[credentialsId: "${GITLAB_CREDENTIALS_ID}", url: "${GITLAB_URL}"]]])
+                    }
                 }
             }
         }
 
-        stage('Build and Push Docker Image') {
+        stage('构建并推送 Docker 镜像') {
             steps {
                 script {
-                    // 使用时间戳标记构建 Docker 镜像
                     def timestamp = new Date().format("yyyyMMdd-HHmmss")
-                    env.dockerImageTag = "nginx:${timestamp}"  // 在更广泛的作用域中定义它（使用'env'使其成为环境变量）
-
-                    // 构建并标记 Docker 镜像
+                    env.dockerImageTag = "nginx:${timestamp}"
                     sh "docker build -t ${env.dockerImageTag} ."
-                    
-                    // 使用凭据登录到 Docker 注册表
+
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
                         sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY}"
                     }
-                    
-                    // 推送 Docker 镜像到注册表
                     sh "docker tag ${env.dockerImageTag} ${DOCKER_REGISTRY}/${env.dockerImageTag} && docker push ${DOCKER_REGISTRY}/${env.dockerImageTag}"
-                    
-                    echo "Docker 镜像已成功推送到注册表"
+
+                    ansiColor('xterm') {
+                        echo '\u001B[32mDocker 镜像已成功推送到注册表\u001B[0m'
+                    }
                 }
             }
         }
 
-        stage('Run Docker Container') {
+        stage('漏洞扫描') {
             steps {
                 script {
-                    // 在随机端口上运行 Docker 容器
-                    def allocatedPort = sh(script: "docker run -d -P ${DOCKER_REGISTRY}/${env.dockerImageTag} | xargs docker port | cut -d'-' -f2", returnStdout: true).trim()
+                    sh 'docker pull aquasec/trivy'
+                    
+                    // Capture the output of the Trivy scan command
+                    def trivyReport = sh(script: "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ${DOCKER_REGISTRY}/${env.dockerImageTag}", returnStdout: true).trim()
 
-                    echo "Docker 容器正在随机端口上运行"
+                    // Output Trivy scan results
+                    echo "Trivy Scan Results:"
+                    sh(script: "echo '${trivyReport}'")
+
+                    // Check if there are high severity vulnerabilities and fail the build if any
+                    if (trivyReport.contains("High")) {
+                        error "High severity vulnerabilities found. Build failed."
+                    }
                 }
             }
         }
