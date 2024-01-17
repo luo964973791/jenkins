@@ -9,7 +9,7 @@ pipeline {
     }
 
     stages {
-        stage('Git 检出') {
+        stage('Git 克隆项目代码') {
             steps {
                 script {
                     ansiColor('xterm') {
@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('构建并推送 Docker 镜像') {
+        stage('构建并推送 Docker 镜像到私有仓库') {
             steps {
                 script {
                     def timestamp = new Date().format("yyyyMMdd-HHmmss")
@@ -41,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('漏洞扫描') {
+        stage('扫描新打包的镜像漏洞') {
             steps {
                 script {
                     sh 'docker pull aquasec/trivy'
@@ -60,11 +60,11 @@ pipeline {
             }
         }
 
-        stage('启动 Docker 服务') {
+        stage('docker随机启动一个端口对外提供服务') {
             steps {
                 script {
                     // 生成随机端口号
-                    def randomPort = sh(script: 'shuf -i 8000-8999 -n 1', returnStdout: true).trim()
+                    def randomPort = sh(script: 'shuf -i 30000-32767 -n 1', returnStdout: true).trim()
                     
                     // 启动 Docker 服务
                     sh "docker run -d -p ${randomPort}:80 --name nginx-${randomPort} ${DOCKER_REGISTRY}/${env.dockerImageTag}"
@@ -75,13 +75,13 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
-        always {
-            // 清理: 从 Docker 注册表注销
-            script {
-                sh "docker logout ${DOCKER_REGISTRY}"
+        stage('退出登录私有仓库') {
+            steps {
+                script {                    
+                    // 注销 Docker 仓库
+                    sh "docker logout ${DOCKER_REGISTRY}"
+                }
             }
         }
     }
