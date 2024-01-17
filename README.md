@@ -23,6 +23,10 @@ docker run -itd \
   --restart=always \
   --name slave-1 \
   --init \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $(which docker):/usr/bin/docker \
+  -v /usr/libexec/docker/:/usr/libexec/docker/ \
+  -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai \
   -v /data/jenkins:/home/jenkins/agent \
   jenkins/inbound-agent:jdk8 \
   -url http://172.27.0.3:38080 \
