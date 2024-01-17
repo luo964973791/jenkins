@@ -1,4 +1,3 @@
-//运行前必须在插件管理里安装AnsiColor插件
 pipeline {
     agent any
 
@@ -15,7 +14,6 @@ pipeline {
                 script {
                     ansiColor('xterm') {
                         echo '\u001B[32m中文输出：Git 检出\u001B[0m'
-                        // 使用凭据克隆 GitLab 存储库
                         checkout([$class: 'GitSCM', branches: [[name: '*/main']],
                                 doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
                                 userRemoteConfigs: [[credentialsId: "${GITLAB_CREDENTIALS_ID}", url: "${GITLAB_URL}"]]])
@@ -54,6 +52,22 @@ pipeline {
                     // Check if there are high severity vulnerabilities and fail the build if any
                     if (trivyReport.contains("High")) {
                         error "High severity vulnerabilities found. Build failed."
+                    }
+                }
+            }
+        }
+
+        stage('启动 Docker 服务') {
+            steps {
+                script {
+                    // 生成随机端口号
+                    def randomPort = sh(script: 'shuf -i 8000-8999 -n 1', returnStdout: true).trim()
+                    
+                    // 启动 Docker 服务
+                    sh "docker run -d -p ${randomPort}:80 --name nginx-${randomPort} ${DOCKER_REGISTRY}/${env.dockerImageTag}"
+                    
+                    ansiColor('xterm') {
+                        echo "\u001B[32m成功启动 Docker 服务，端口号: ${randomPort}\u001B[0m"
                     }
                 }
             }
