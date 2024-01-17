@@ -49,6 +49,9 @@ pipeline {
                     // Capture the output of the Trivy scan command
                     def trivyReport = sh(script: "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --quiet ${DOCKER_REGISTRY}/${env.dockerImageTag}", returnStdout: true).trim()
 
+                    // Echo the Trivy scan report
+                    echo "Trivy Scan Report:\n${trivyReport}"
+
                     // Check if there are high severity vulnerabilities and fail the build if any
                     if (trivyReport.contains("High")) {
                         error "High severity vulnerabilities found. Build failed."
