@@ -1,3 +1,4 @@
+#运行前先在插件仓库安装ansiColor.
 pipeline {
     agent any
 
