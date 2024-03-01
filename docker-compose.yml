@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   jenkins:
+    user: root
     container_name: jenkins
     image: jenkins/jenkins:lts
     ports:
@@ -8,12 +9,9 @@ services:
       - 50000:50000
     restart: always
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - /data/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /usr/libexec/docker/:/usr/libexec/docker/
     environment:
       - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
-
-volumes:
-  jenkins_home:
