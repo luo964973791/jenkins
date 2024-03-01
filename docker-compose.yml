@@ -15,3 +15,8 @@ services:
       - /usr/libexec/docker/:/usr/libexec/docker/
     environment:
       - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/login || exit 1"]
+      interval: 3s
+      timeout: 10s
+      retries: 3
