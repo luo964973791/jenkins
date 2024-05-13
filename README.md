@@ -54,10 +54,10 @@ helm install jenkins \
   --set agent.podName=slave \
   --set agent.nodeSelector."cicd"=jenkins \
   --set controller.javaOpts="-Duser.timezone=Asia/Shanghai" \
-  --set controller.resources.requests.cpu="50m" \
+  --set controller.resources.requests.cpu="218m" \
   --set controller.resources.requests.memory="128Mi" \
   --set controller.resources.limits.cpu="500m" \
-  --set controller.resources.limits.memory="256Mi" \
+  --set controller.resources.limits.memory="512Mi" \
   jenkins/jenkins
 ```
 
