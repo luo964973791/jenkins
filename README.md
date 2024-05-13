@@ -46,14 +46,18 @@ kubectl label node node3 cicd=jenkins
 
 helm install jenkins \
   --namespace jenkins --create-namespace \
-  --set controller.adminUser=admin \
-  --set controller.adminPassword="Test@123" \
+  --set controller.admin.username=admin \
+  --set controller.admin.password="Test@123" \
   --set controller.serviceType=LoadBalancer \
   --set persistence.storageClass=local-path \
   --set persistence.size=6Gi \
   --set agent.podName=slave \
   --set agent.nodeSelector."cicd"=jenkins \
   --set controller.javaOpts="-Duser.timezone=Asia/Shanghai" \
+  --set controller.resources.requests.cpu="50m" \
+  --set controller.resources.requests.memory="128Mi" \
+  --set controller.resources.limits.cpu="500m" \
+  --set controller.resources.limits.memory="256Mi" \
   jenkins/jenkins
 ```
 
