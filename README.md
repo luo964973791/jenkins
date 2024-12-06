@@ -54,19 +54,27 @@ helm install jenkins \
   --set persistence.size=6Gi \
   --set agent.podName=slave \
   --set agent.nodeSelector."cicd"=jenkins \
-  --set controller.javaOpts="-Duser.timezone=Asia/Shanghai" \
+  --set controller.javaOpts="-Duser.timezone=Asia/Shanghai -Dhttp.proxyHost=192.168.197.20 -Dhttp.proxyPort=7890 -Dhttps.proxyHost=192.168.197.20 -Dhttps.proxyPort=7890" \
   --set controller.resources.requests.cpu="50m" \
   --set controller.resources.requests.memory="256Mi" \
   --set controller.resources.limits.cpu="2000m" \
   --set controller.resources.limits.memory="4096Mi" \
-  --set controller.initContainerEnv[0].name=http_proxy \
-  --set controller.initContainerEnv[0].value="http://192.168.197.20:7890" \
-  --set controller.containerEnv[0].name=http_proxy \
-  --set controller.containerEnv[0].value="http://192.168.197.20:7890" \
   --set agent.resources.requests.cpu="512m" \
   --set agent.resources.requests.memory="512Mi" \
   --set agent.resources.limits.cpu="1000m" \
   --set agent.resources.limits.memory="1024Mi" \
+  --set controller.initContainerEnv[0].name=http_proxy \
+  --set controller.initContainerEnv[0].value="http://192.168.197.20:7890" \
+  --set controller.initContainerEnv[1].name=https_proxy \
+  --set controller.initContainerEnv[1].value="http://192.168.197.20:7890" \
+  --set controller.initContainerEnv[2].name=no_proxy \
+  --set controller.initContainerEnv[2].value="" \
+  --set controller.initContainerEnv[3].name=JAVA_OPTS \
+  --set controller.initContainerEnv[3].value="-Dhttps.proxyHost=192.168.197.20 -Dhttps.proxyPort=7890" \
+  --set controller.containerEnv[0].name=http_proxy \
+  --set controller.containerEnv[0].value="http://192.168.197.20:7890" \
+  --set controller.containerEnv[1].name=https_proxy \
+  --set controller.containerEnv[1].value="http://192.168.197.20:7890" \
   jenkins/jenkins
 
 #如果报错一般都是网络问题,下载插件下载不下来
