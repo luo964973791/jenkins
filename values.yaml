@@ -1,0 +1,86 @@
+#使用代理先部署起来,主要下载那些国外的插件,后面还需要更新的,临时用下 helm install jenkins   --namespace kube-system   -f ./values.yaml   jenkins/jenkins
+controller:
+  image:
+    pullPolicy: "IfNotPresent"
+  jenkinsUrl: http://172.27.0.3:30080
+  admin:
+    username: admin
+    password: "Test@123"
+  serviceType: NodePort
+  nodePort: 30080
+  javaOpts: "-Duser.timezone=Asia/Shanghai -Dhttp.proxyHost=192.168.197.20 -Dhttp.proxyPort=7890 -Dhttps.proxyHost=192.168.197.20 -Dhttps.proxyPort=7890"
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "256Mi"
+    limits:
+      cpu: "2000m"
+      memory: "4096Mi"
+  initContainerEnv:
+    - name: http_proxy
+      value: "http://192.168.197.20:7890"
+    - name: https_proxy
+      value: "http://192.168.197.20:7890"
+    - name: no_proxy
+      value: ""
+    - name: JAVA_OPTS
+      value: "-Dhttps.proxyHost=192.168.197.20 -Dhttps.proxyPort=7890"
+  containerEnv:
+    - name: http_proxy
+      value: "http://192.168.197.20:7890"
+    - name: https_proxy
+      value: "http://192.168.197.20:7890"
+
+persistence:
+  storageClass: local-path
+  size: 6Gi
+
+agent:
+  podName: slave
+  nodeSelector:
+    cicd: jenkins
+  resources:
+    requests:
+      cpu: "512m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1024Mi"
+
+
+
+
+#去掉代理后更新, helm upgrade jenkins   --namespace kube-system   -f ./values.yaml   jenkins/jenkins
+controller:
+  image:
+    pullPolicy: "IfNotPresent"
+  jenkinsUrl: http://172.27.0.3:30080
+  admin:
+    username: admin
+    password: "Test@123"
+  serviceType: NodePort
+  nodePort: 30080
+  javaOpts: "-Duser.timezone=Asia/Shanghai"
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "256Mi"
+    limits:
+      cpu: "2000m"
+      memory: "4096Mi"
+
+persistence:
+  storageClass: local-path
+  size: 6Gi
+
+agent:
+  podName: slave
+  nodeSelector:
+    cicd: jenkins
+  resources:
+    requests:
+      cpu: "512m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1024Mi"
