@@ -46,7 +46,7 @@ kubectl label node node3 cicd=jenkins
 
 helm install jenkins \
   --namespace jenkins --create-namespace \
-  --set controller.jenkinsUrl=http://jenkins.jenkins.svc.cluster.local:8080 \
+  --set controller.jenkinsUrl=http://172.27.0.8:8080 \
   --set controller.admin.username=admin \
   --set controller.admin.password="Test@123" \
   --set controller.serviceType=LoadBalancer \
@@ -59,7 +59,18 @@ helm install jenkins \
   --set controller.resources.requests.memory="256Mi" \
   --set controller.resources.limits.cpu="2000m" \
   --set controller.resources.limits.memory="2048Mi" \
+  --set controller.initContainerEnv[0].name=http_proxy \
+  --set controller.initContainerEnv[0].value="http://192.168.197.20:7890" \
+  --set controller.containerEnv[0].name=http_proxy \
+  --set controller.containerEnv[0].value="http://192.168.197.20:7890" \
+  --set agent.resources.requests.cpu="512m" \
+  --set agent.resources.requests.memory="512Mi" \
+  --set agent.resources.limits.cpu="1000m" \
+  --set agent.resources.limits.memory="1024Mi" \
   jenkins/jenkins
+
+#如果报错一般都是网络问题,下载插件下载不下来
+kubectl logs -n jenkins jenkins-0 -c init -f
 ```
 
 ![](./image/6.png)
