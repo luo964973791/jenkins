@@ -58,7 +58,7 @@ helm install jenkins \
   --set controller.resources.requests.cpu="50m" \
   --set controller.resources.requests.memory="256Mi" \
   --set controller.resources.limits.cpu="2000m" \
-  --set controller.resources.limits.memory="4096Mi" \
+  --set controller.resources.limits.memory="2048Mi" \
   --set agent.resources.requests.cpu="512m" \
   --set agent.resources.requests.memory="512Mi" \
   --set agent.resources.limits.cpu="1000m" \
