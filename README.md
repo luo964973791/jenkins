@@ -72,10 +72,11 @@ kubectl logs -n jenkins jenkins-0 -c init -f
 
 helm install jenkins \
   --namespace jenkins --create-namespace \
-  --set controller.jenkinsUrl=http://172.27.0.8:8080 \
+  --set controller.jenkinsUrl=http://172.27.0.3:30080 \
   --set controller.admin.username=admin \
   --set controller.admin.password="Test@123" \
-  --set controller.serviceType=LoadBalancer \
+  --set controller.serviceType=NodePort \
+  --set controller.nodePort=30080 \
   --set persistence.storageClass=local-path \
   --set persistence.size=6Gi \
   --set agent.podName=slave \
