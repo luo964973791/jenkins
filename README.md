@@ -58,7 +58,7 @@ helm install jenkins \
   --set controller.resources.requests.cpu="50m" \
   --set controller.resources.requests.memory="256Mi" \
   --set controller.resources.limits.cpu="2000m" \
-  --set controller.resources.limits.memory="2048Mi" \
+  --set controller.resources.limits.memory="4096Mi" \
   --set controller.initContainerEnv[0].name=http_proxy \
   --set controller.initContainerEnv[0].value="http://192.168.197.20:7890" \
   --set controller.containerEnv[0].name=http_proxy \
