@@ -51,7 +51,7 @@ agent:
 
 
 
-
+#kubectl logs -n jenkins jenkins-0 -c init -f
 #去掉代理后更新, helm upgrade jenkins   --namespace kube-system   -f ./values.yaml   jenkins/jenkins
 controller:
   image:
