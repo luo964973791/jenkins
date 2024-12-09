@@ -1,3 +1,5 @@
+#helm repo add jenkins https://charts.jenkins.io
+#helm repo update
 #使用代理先部署起来,主要下载那些国外的插件,后面还需要更新的,临时用下 helm install jenkins   --namespace kube-system   -f ./values.yaml   jenkins/jenkins
 controller:
   image:
