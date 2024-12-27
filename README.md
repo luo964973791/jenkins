@@ -46,11 +46,10 @@ kubectl label node node3 cicd=jenkins
 
 helm install jenkins \
   --namespace jenkins --create-namespace \
-  --set controller.jenkinsUrl=http://172.27.0.8:32080 \
+  --set controller.jenkinsUrl=http://172.27.0.11:8080 \
   --set controller.admin.username=admin \
   --set controller.admin.password="Test@123" \
-  --set controller.serviceType=NodePort \
-  --set controller.service.nodePort=32080 \
+  --set controller.serviceType=LoadBalancer \
   --set persistence.storageClass=local-path \
   --set persistence.size=6Gi \
   --set agent.podName=slave \
@@ -73,11 +72,10 @@ kubectl logs -n jenkins jenkins-0 -c init -f
 
 helm install jenkins \
   --namespace jenkins --create-namespace \
-  --set controller.jenkinsUrl=http://172.27.0.3:32080 \
+  --set controller.jenkinsUrl=http://172.27.0.11:8080 \
   --set controller.admin.username=admin \
   --set controller.admin.password="Test@123" \
-  --set controller.serviceType=NodePort \
-  --set controller.service.nodePort=32080 \
+  --set controller.serviceType=LoadBalancer \
   --set controller.nodePort=30080 \
   --set persistence.storageClass=local-path \
   --set persistence.size=6Gi \
