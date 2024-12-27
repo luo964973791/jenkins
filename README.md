@@ -49,7 +49,7 @@ helm install jenkins \
   --set controller.jenkinsUrl=http://172.27.0.8:8080 \
   --set controller.admin.username=admin \
   --set controller.admin.password="Test@123" \
-  --set controller.serviceType=LoadBalancer \
+  --set controller.serviceType=NodePort \
   --set persistence.storageClass=local-path \
   --set persistence.size=6Gi \
   --set agent.podName=slave \
