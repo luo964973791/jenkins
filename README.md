@@ -71,7 +71,7 @@ kubectl logs -n jenkins jenkins-0 -c init -f
 
 
 helm install jenkins \
-  -n kube-system \ \
+  -n kube-system \
   --set controller.jenkinsUrl=jenkins.jenkins.svc.cluster.local:8080 \
   --set controller.admin.username=admin \
   --set controller.admin.password="Test@123" \
